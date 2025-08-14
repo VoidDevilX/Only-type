@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pro Text Analyzer with Fonts</title>
+    <link id="fontLink" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto&display=swap">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            color: white;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            max-width: 650px;
+            width: 100%;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: none;
+            outline: none;
+        }
+        textarea {
+            width: 100%;
+            padding: 12px;
+            font-size: 18px;
+            color: #fff;
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            border-radius: 10px;
+            resize: none;
+            outline: none;
+            margin-bottom: 15px;
+            transition: font-family 0.3s ease;
+        }
+        textarea::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .stat-box {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: none;
+            border-radius: 10px;
+            background: #ff4b2b;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover {
+            background: #ff416c;
+            box-shadow: 0 0 15px rgba(255, 65, 108, 0.7);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Live Text Analyzer</h2>
+        
+        <!-- Font Selector -->
+        <select id="fontSelector" onchange="changeFont(this.value)">
+            <option value="Roboto">Roboto</option>
+            <option value="Poppins">Poppins</option>
+            <option value="Open+Sans">Open Sans</option>
+            <option value="Lobster">Lobster</option>
+            <option value="Oswald">Oswald</option>
+            <option value="Raleway">Raleway</option>
+            <option value="Montserrat">Montserrat</option>
+            <option value="Merriweather">Merriweather</option>
+            <option value="Indie+Flower">Indie Flower</option>
+            <option value="Pacifico">Pacifico</option>
+        </select>
+
+        <textarea rows="8" placeholder="Type or paste your text here..." oninput="countText()" id="textInput"></textarea>
+        <div class="stats">
+            <div class="stat-box">Words: <span id="wordCount">0</span></div>
+            <div class="stat-box">Characters: <span id="charCount">0</span></div>
+            <div class="stat-box">Sentences: <span id="sentenceCount">0</span></div>
+            <div class="stat-box">Paragraphs: <span id="paraCount">0</span></div>
+        </div>
+        <button onclick="clearText()">Clear Text</button>
+    </div>
+
+    <script>
+        function countText() {
+            let text = document.getElementById("textInput").value.trim();
+            let words = text ? text.split(/\s+/).filter(w => w.length > 0).length : 0;
+            let chars = text.length;
+            let sentences = text ? text.split(/[.!?]+/).filter(s => s.trim().length > 0).length : 0;
+            let paragraphs = text ? text.split(/\n+/).filter(p => p.trim().length > 0).length : 0;
+
+            document.getElementById("wordCount").textContent = words;
+            document.getElementById("charCount").textContent = chars;
+            document.getElementById("sentenceCount").textContent = sentences;
+            document.getElementById("paraCount").textContent = paragraphs;
+        }
+
+        function clearText() {
+            document.getElementById("textInput").value = "";
+            countText();
+        }
+
+        function changeFont(fontName) {
+            document.getElementById("fontLink").href =
+                `https://fonts.googleapis.com/css2?family=${fontName}&display=swap`;
+            document.getElementById("textInput").style.fontFamily = `'${fontName.replace(/\+/g, ' ')}', sans-serif`;
+        }
+    </script>
+</body>
+</html>
